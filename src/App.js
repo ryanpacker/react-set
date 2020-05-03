@@ -141,6 +141,18 @@ class CardGrid extends React.Component {
 }
 
 class FoundSets extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAllSets: false,
+    }
+  }
+
+  toggleShowAllSets(){
+    this.setState({
+      showAllSets: !this.state.showAllSets,
+    });
+  }
 
   render() {
     let cheat_card_view = null;
@@ -176,7 +188,7 @@ class FoundSets extends React.Component {
     return (
       <div className="FoundSets">
         {cheat_card_view}
-        <div>Found sets go here</div>
+        <div>Found sets</div>
         {found_sets}
         <div>All sets</div>
         {all_sets}
