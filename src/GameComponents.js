@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { AppSwitch } from '@coreui/react';
 
-import Game from './Game.js';
-var game = new Game();
 
 class CardGrid extends Component {
 
@@ -103,7 +101,9 @@ class FoundSets extends Component {
     super(props);
     this.state = {
       showAllSets: false,
+      temp: this.props.temp
     }
+    this.gameEngine = this.props.gameEngine;
   }
 
   toggleShowAllSets(){
@@ -113,8 +113,9 @@ class FoundSets extends Component {
   }
 
   render() {
+    console.log('FoundSet::render()');
     let cheat_card_view = null;
-    let cheat_card_id = game.getCheatCardId();
+    let cheat_card_id = this.gameEngine.getCheatCardId();
     if(cheat_card_id !== -1){
       cheat_card_view = (
         <div className="CheatCard">
@@ -123,7 +124,7 @@ class FoundSets extends Component {
       );
     }
 
-    let found_sets = game.foundSets.map((found_set) => {
+    let found_sets = this.gameEngine.foundSets.map((found_set) => {
       return (
         <div className="FoundSet">
           <CardView id={found_set[0]} />
@@ -133,9 +134,9 @@ class FoundSets extends Component {
       );
     });
 
-    let all_sets = game.findAllSets().map((found_set) => {
+    let all_sets = this.gameEngine.findAllSets().map((found_set) => {
       return (
-        <div className="FoundSet">
+        <div className="FoundSet" key={'found_set-' + found_set}>
           <CardView id={found_set[0]} />
           <CardView id={found_set[1]} />
           <CardView id={found_set[2]} />

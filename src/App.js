@@ -77,10 +77,11 @@ class App extends Component {
   }
 
   render(){
+    console.log('App::render()');
     return (
         <Layout>
           <CardGrid gameEngine={this.gameEngine} />
-          <div>column2</div>
+          <FoundSets gameEngine={this.gameEngine} temp={this.state.selectedCards}/>
           <div>settings</div>
         </Layout>
     );

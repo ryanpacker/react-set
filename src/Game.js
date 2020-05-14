@@ -58,6 +58,7 @@ class Game {
   }
 
   addSelectedCardsToFoundSets(){
+    console.log("Found a set: " + this.selectedCards);
     this.foundSets.push(this.selectedCards);
     this.selectedCards = [];
   }
@@ -122,13 +123,13 @@ class Game {
   }
 
   findAllSets(){
-    console.log('findAllSets');
+    console.log('Game::findAllSets()');
     let card_ids = this.cardsInPlay;
     let all_sets = [];
     for(let i=0; i < (card_ids.length - 2); i++){
       for(let j=i+1; j < (card_ids.length - 1); j++){
         let card3_id = this.completeSetIds(card_ids[i], card_ids[j])
-        console.log('checking for ' + card3_id + ' in ' + card_ids);
+        //console.log('checking for ' + card3_id + ' in ' + card_ids);
         if(card_ids.slice(j).includes(card3_id)){
           all_sets.push([card_ids[i], card_ids[j], card3_id]);
         }
