@@ -43,16 +43,16 @@ class Layout extends React.Component {
               <Container fluid>
                 <Row>
                   <Col className="content-column column1 p-3" xs="8">
-                    column 1
+                    {this.props.children[0]}
                   </Col>
                   <Col className="content-column column2" xs="4">
-                    column 2
+                    {this.props.children[1]}
                   </Col>
                 </Row>
               </Container>
             </Col>
             <Col className="content-column settings" xs="4">
-              Settings
+              {this.props.children[2]}
             </Col>
           </Row>
         </Container>
