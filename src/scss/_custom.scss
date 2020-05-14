@@ -1,0 +1,61 @@
+// Here you can add other styles
+.content-and-settings-row {
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.main-content {
+  //padding: 0px;
+  background-color: #c5cdd6;
+  height: calc(100vh - 54px);
+  flex: 1 0 100%;
+  transition: flex-basis .2s ease-in-out;
+}
+
+.settings {
+  background-color: #abb8c7;
+  padding: 0px;
+  flex: 1 0 400px;
+  width: 400px;
+}
+
+.main-content.show-settings {
+  flex-basis: calc(100% - 400px);
+  transition: flex-basis .2s ease-in-out;
+}
+
+.content-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.column1 {
+  //border: 2px solid #bb2783;
+  height: calc(100vh - 54px);
+}
+
+.column2 {
+  //border-left: 2px solid #2782bb
+}
+
+// GameComponents
+.Card {
+  border: 2px solid #bcbcc8;
+  background-color: #c7d5e0;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.CardGrid div {
+  display: flex;
+  flex-direction: row;
+}
+
+.selected{
+  border: 2px solid #c32cb8;
+  background-color: #a4bbcd;
+}
