@@ -16,16 +16,14 @@ class App extends Component {
     this.state = {
       cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
       selectedCards: [],
-      lastClickedCard: '0000'
     }
   }
 
   handleClick(card_id){
-    console.log('Click handled for card: ' + card_id );
+    console.log('Finally: Click handled for card: ' + card_id );
     this.setState({
       cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
       selectedCards: this.gameEngine.getSelectedCardIds(),
-      lastClickedCard: card_id
     });
 
     if(this.cardIsSelected(card_id)){
@@ -77,8 +75,8 @@ class App extends Component {
   render(){
     console.log('App::render()');
     return (
-        <Layout lastClickedCard={this.state.lastClickedCard}>
-          <CardGrid gameEngine={this.gameEngine} />
+        <Layout>
+          <CardGrid onClick={(id) => this.handleClick(id)} gameEngine={this.gameEngine} />
           <FoundSets gameEngine={this.gameEngine} />
           <div>settings</div>
         </Layout>

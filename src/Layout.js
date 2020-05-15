@@ -24,7 +24,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    console.log('Layout::render(): ' + this.props);
+    console.log('Layout::render()');
     let mainContentClassName = this.state.showSettings ? "main-content show-settings" : "main-content";
 
     return(
@@ -52,7 +52,6 @@ class Layout extends React.Component {
               </Container>
             </Col>
             <Col className="content-column settings" xs="4">
-              {this.props.lastClickedCard}
               {this.props.children[2]}
             </Col>
           </Row>
