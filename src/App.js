@@ -84,6 +84,7 @@ class GameView extends React.Component {
   }
 
   render() {
+    console.log('GameView::render()');
     return (
       <div className="Game">
         <div className="GridContainer">
@@ -155,6 +156,7 @@ class FoundSets extends React.Component {
   }
 
   render() {
+    console.log('FoundSets::render()');
     let cheat_card_view = null;
     let cheat_card_id = game.getCheatCardId();
     if(cheat_card_id !== -1){
