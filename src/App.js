@@ -13,23 +13,21 @@ class App extends Component {
 
     this.gameEngine = new Game();
 
-    var cards = this.gameEngine.deck.drawCards(11);
-    cards.push(this.gameEngine.completeSet(cards[9], cards[10]));
-
-    var card_ids = cards.map((card) => {
-      return card.base3id;
-    });
-
-    this.gameEngine.cardsInPlay = card_ids;
-
     this.state = {
-      cardsInPlay: card_ids, // card IDs for now... need to decide between ids and card objects
+      cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
       selectedCards: [],
+      lastClickedCard: '0000'
     }
   }
 
   handleClick(card_id){
-    console.log('click handled for card: ' + card_id );
+    console.log('Click handled for card: ' + card_id );
+    this.setState({
+      cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
+      selectedCards: this.gameEngine.getSelectedCardIds(),
+      lastClickedCard: card_id
+    });
+
     if(this.cardIsSelected(card_id)){
       this.removeCardFromSelection(card_id);
     } else {
@@ -65,7 +63,7 @@ class App extends Component {
   setSelectedCards(selectedCards){
     console.log('change state from: ' + this.state.selectedCards+' to: ' + selectedCards);
     this.setState({
-      cardsInPlay: this.state.cardsInPlay,
+      cardsInPlay: this.state.cardsInPlay.slice(),
       selectedCards: selectedCards
     });
     this.gameEngine.selectedCards = selectedCards;
@@ -79,9 +77,9 @@ class App extends Component {
   render(){
     console.log('App::render()');
     return (
-        <Layout>
+        <Layout lastClickedCard={this.state.lastClickedCard}>
           <CardGrid gameEngine={this.gameEngine} />
-          <FoundSets gameEngine={this.gameEngine} temp={this.state.selectedCards}/>
+          <FoundSets gameEngine={this.gameEngine} />
           <div>settings</div>
         </Layout>
     );
