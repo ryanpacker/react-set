@@ -135,7 +135,7 @@ class CardView extends Component {
 
   render() {
 //    console.log('CardView::render() | card_id: ' + this.props.id);
-    let className = this.props.isSelected ? 'Card selected' : 'Card';
+    let className = this.props.isSelected ? 'SetCard selected' : 'SetCard';
     return (
       <div
         className={className}
