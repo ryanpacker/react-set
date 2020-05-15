@@ -5,58 +5,6 @@ import { AppSwitch } from '@coreui/react';
 
 class CardGrid extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.gameEngine = this.props.gameEngine;
-
-    this.state = {
-      cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
-      selectedCards: [],
-    }
-  }
-
-  handleClick(card_id){
-    console.log('click handled for card: ' + card_id );
-
-    if(this.props.gameEngine.cardIsSelected(card_id)){
-      this.removeCardFromSelection(card_id);
-    } else {
-      this.addCardToSelection(card_id);
-    }
-
-  }
-
-  addCardToSelection(card_id){
-    if(this.state.selectedCards.length < 3){
-      let selectedCards = this.gameEngine.getSelectedCardIds().slice();
-      selectedCards.push(card_id);
-      this.setSelectedCards(selectedCards);
-      if(this.gameEngine.selectedCardsAreASet() && !this.gameEngine.setIsAlreadyFound(selectedCards)){
-        this.gameEngine.addSelectedCardsToFoundSets();
-        this.setSelectedCards([]);
-      }
-    }
-  }
-
-  removeCardFromSelection(card_id){
-    let selectedCards = this.state.selectedCards.slice();
-    const index = selectedCards.indexOf(card_id);
-    if (index > -1) {
-      selectedCards.splice(index, 1);
-    }
-    this.setSelectedCards(selectedCards);
-  }
-
-  setSelectedCards(selectedCards){
-    console.log('change state from: ' + this.state.selectedCards+' to: ' + selectedCards);
-    this.setState({
-      cardsInPlay: this.gameEngine.getCardsInPlayIds(),
-      selectedCards: selectedCards
-    });
-    this.gameEngine.selectedCards = selectedCards;
-  }
-
   getRow(card_ids) {
 //    console.log('getRow:');
     let selectedCardIds = this.props.gameEngine.getSelectedCardIds();
@@ -69,7 +17,7 @@ class CardGrid extends Component {
           <CardView
             key={'card-'+ card_id }
             id={card_id}
-            onClick={() => this.handleClick(card_id)}
+            onClick={() => this.props.onClick(card_id)}
             isSelected={(selectedCardIds.indexOf(card_id) > -1)}
           />);
       })}
