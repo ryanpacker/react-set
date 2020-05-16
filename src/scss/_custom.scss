@@ -1,6 +1,6 @@
 // Here you can add other styles
 .content-and-settings-row {
-  overflow: hidden;
+  overflow-x: hidden;
   flex-wrap: nowrap;
 }
 
@@ -48,6 +48,7 @@
   margin: 5px;
   border-radius: 20px;
   font-size: 12px;
+  display: inline-block;
 }
 
 .CardGrid div {
@@ -75,4 +76,12 @@
 .FoundSet {
   display: flex;
   flex-direction: row;
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }

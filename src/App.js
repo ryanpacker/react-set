@@ -76,9 +76,7 @@ class App extends Component {
     console.log('App::render()');
     return (
         <Layout>
-          <CardGrid onClick={(id) => this.handleClick(id)} gameEngine={this.gameEngine} />
-          <FoundSets gameEngine={this.gameEngine} />
-          <div>settings</div>
+        
         </Layout>
     );
   }

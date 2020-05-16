@@ -135,10 +135,10 @@ class CardView extends Component {
 
   render() {
 //    console.log('CardView::render() | card_id: ' + this.props.id);
-    let className = this.props.isSelected ? 'SetCard selected' : 'SetCard';
+    let selectedClassName = this.props.isSelected ? ' selected' : '';
     return (
       <div
-        className={className}
+        className={'SetCard' + selectedClassName}
         onClick={() => this.props.onClick(this.props.id)}
       >
         <img
