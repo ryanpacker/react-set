@@ -1,0 +1,97 @@
+// Here you can add other styles
+.content-and-settings-row {
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+}
+
+.main-content {
+  //padding: 0px;
+  background-color: #c5cdd6;
+  height: calc(100vh - 54px);
+  flex: 1 0 100%;
+  transition: flex-basis .2s ease-in-out;
+}
+
+.settings {
+  background-color: #abb8c7;
+  padding: 0px;
+  flex: 1 0 400px;
+  width: 400px;
+}
+
+.main-content.show-settings {
+  flex-basis: calc(100% - 400px);
+  transition: flex-basis .2s ease-in-out;
+}
+
+.content-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.column1 {
+  //border: 2px solid #bb2783;
+  height: calc(100vh - 54px);
+}
+
+.column2 {
+  //border-left: 2px solid #2782bb
+}
+
+// GameComponents
+.SetCard {
+  border: 2px solid #bcbcc8;
+  background-color: #e6eef4;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.CardGrid div {
+  display: flex;
+  flex-direction: row;
+}
+
+.selected{
+  border: 2px solid #c32cb8;
+  background-color: #d5e1e9;
+}
+
+.FoundSets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.FoundSets img {
+  height: 60px;
+  width: 94px;
+}
+
+.FoundSets .SetCard {
+  padding: 4px;
+  margin: 2px;
+  border-radius: 10px;
+  width: min-content;
+}
+
+.FoundSet {
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
