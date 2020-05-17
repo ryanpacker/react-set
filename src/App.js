@@ -1,42 +1,31 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from 'react';
+import './App.scss';
+import Layout from './Layout.js';
 import Game from './Game.js';
+import { CardGrid, FoundSets } from './GameComponents.js';
 
-var game = new Game();
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        SET
-      </header>
-      <GameView />
-    </div>
-  );
-}
 
-class GameView extends React.Component {
+class App extends Component {
 
   constructor(props) {
     super(props);
 
-    var cards = game.deck.drawCards(11);
-    cards.push(game.completeSet(cards[9], cards[10]));
-
-    var card_ids = cards.map((card) => {
-      return card.base3id;
-    });
-
-    game.cardsInPlay = card_ids;
+    this.gameEngine = new Game();
 
     this.state = {
-      cardsInPlay: card_ids, // card IDs for now... need to decide between ids and card objects
+      cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
       selectedCards: [],
     }
   }
 
   handleClick(card_id){
-    console.log('click handled for card: ' + card_id );
+    console.log('Finally: Click handled for card: ' + card_id );
+    this.setState({
+      cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
+      selectedCards: this.gameEngine.getSelectedCardIds(),
+    });
+
     if(this.cardIsSelected(card_id)){
       this.removeCardFromSelection(card_id);
     } else {
@@ -45,7 +34,7 @@ class GameView extends React.Component {
   }
 
   //completeSet(card1_id, card2_id){
-  //  return game.completeSet(game.deck.getCardFromId(card1_id), game.deck.getCardFromId(card2_id));
+  //  return this.gameEngine.completeSet(this.gameEngine.deck.getCardFromId(card1_id), this.gameEngine.deck.getCardFromId(card2_id));
   //}
 
   addCardToSelection(card_id){
@@ -53,8 +42,8 @@ class GameView extends React.Component {
       let selectedCards = this.state.selectedCards.slice();
       selectedCards.push(card_id);
       this.setSelectedCards(selectedCards);
-      if(game.selectedCardsAreASet() && !game.setIsAlreadyFound(selectedCards)){
-        game.addSelectedCardsToFoundSets();
+      if(this.gameEngine.selectedCardsAreASet() && !this.gameEngine.setIsAlreadyFound(selectedCards)){
+        this.gameEngine.addSelectedCardsToFoundSets();
         this.setSelectedCards([]);
       }
     }
@@ -72,10 +61,10 @@ class GameView extends React.Component {
   setSelectedCards(selectedCards){
     console.log('change state from: ' + this.state.selectedCards+' to: ' + selectedCards);
     this.setState({
-      cardsInPlay: this.state.cardsInPlay,
+      cardsInPlay: this.state.cardsInPlay.slice(),
       selectedCards: selectedCards
     });
-    game.selectedCards = selectedCards;
+    this.gameEngine.selectedCards = selectedCards;
   }
 
   cardIsSelected(card_id){
@@ -83,143 +72,14 @@ class GameView extends React.Component {
     return (this.state.selectedCards.indexOf(card_id) > -1);
   }
 
-  render() {
-    console.log('GameView::render()');
+  render(){
+    console.log('App::render()');
     return (
-      <div className="Game">
-        <div className="GridContainer">
-          <CardGrid
-            onClick={(id) => this.handleClick(id)}
-            cardsInPlay={this.state.cardsInPlay}
-            selectedCards={this.state.selectedCards}
-          />
-        </div>
-        <div className="SetsContainer">
-          <FoundSets />
-        </div>
-      </div>
-    );
-  }
-}
-
-class CardGrid extends React.Component {
-
-  getRow(card_ids) {
-//    console.log('getRow:');
-
-    return (
-      <div>
-      {card_ids.map((card_id) => {
-//        console.log('Rendering card: '+card_id);
-//        console.log('Selected Cards: '+this.props.selectedCards);
-        return (
-          <CardView
-            id={card_id}
-            onClick={this.props.onClick}
-            isSelected={(this.props.selectedCards.indexOf(card_id) > -1)}
-          />);
-      })}
-      </div>
-    );
-  }
-
-  render() {
-
-    const rows = [];
-    const num_columns = 3;
-    const num_rows = Math.ceil(this.props.cardsInPlay.length / num_columns);
-    for(let i = 0; i < num_rows; i++){
-//      console.log('getting row '+ i );
-      rows[i] = this.getRow(this.props.cardsInPlay.slice(i*num_columns, (i+1)*num_columns));
-    }
-
-    return (
-      <div className="CardGrid">
-        {rows}
-      </div>
-    );
-  }
-}
-
-class FoundSets extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAllSets: false,
-    }
-  }
-
-  toggleShowAllSets(){
-    this.setState({
-      showAllSets: !this.state.showAllSets,
-    });
-  }
-
-  render() {
-    console.log('FoundSets::render()');
-    let cheat_card_view = null;
-    let cheat_card_id = game.getCheatCardId();
-    if(cheat_card_id !== -1){
-      cheat_card_view = (
-        <div className="CheatCard">
-          <CardView id={cheat_card_id} />
-        </div>
-      );
-    }
-
-    let found_sets = game.foundSets.map((found_set) => {
-      return (
-        <div className="FoundSet">
-          <CardView id={found_set[0]} />
-          <CardView id={found_set[1]} />
-          <CardView id={found_set[2]} />
-        </div>
-      );
-    });
-
-    let all_sets = game.findAllSets().map((found_set) => {
-      return (
-        <div className="FoundSet">
-          <CardView id={found_set[0]} />
-          <CardView id={found_set[1]} />
-          <CardView id={found_set[2]} />
-        </div>
-      );
-    });
-
-    return (
-      <div className="FoundSets">
-        {cheat_card_view}
-        <div>Found sets</div>
-        {found_sets}
-        <div>All sets</div>
-        {all_sets}
-      </div>
-    );
-  }
-}
-
-class CardView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.id,
-    }
-  }
-
-  render() {
-//    console.log('CardView::render() | card_id: ' + this.props.id);
-    let className = this.props.isSelected ? 'Card selected' : 'Card';
-    return (
-      <div
-        className={className}
-        onClick={() => this.props.onClick(this.props.id)}
-      >
-        <img
-          src={require('./images/card-images/card-'+this.state.id+'.png')}
-          alt={'set-card-'+this.state.id}
-        />
-      </div>
+        <Layout>
+          <CardGrid onClick={(id) => this.handleClick(id)} gameEngine={this.gameEngine} />
+          <FoundSets gameEngine={this.gameEngine} />
+          <div>settings</div>
+        </Layout>
     );
   }
 }

@@ -4,7 +4,24 @@ class Game {
     this.selectedCards = []; // card IDs
     this.deck = new Deck();
     this.foundSets = []; // card IDs
-    this.cardsInPlay = [];
+    this.cardsInPlay = []; // cardIDs
+    // TODO: change all card lists to be cards and create convenience function to get list of IDs
+
+    this.startNewGame();
+  }
+
+  startNewGame() {
+    var cards = this.deck.drawCards(11);
+    let guaranteeSet = this.completeSet(cards[9], cards[10]);
+    if(cards.indexOf(guaranteeSet) < 0){
+      cards.push(guaranteeSet);
+    }
+
+    var card_ids = cards.map((card) => {
+      return card.base3id;
+    });
+
+    this.cardsInPlay = card_ids;
   }
 
   addCardToSelection(card_id){
@@ -22,6 +39,15 @@ class Game {
     return this.selectedCards;
   }
 
+  cardIsSelected(card_id){
+    console.log('Checking to see if card '+card_id+ ' is selected: ' + (this.selectedCards.indexOf(card_id) > -1));
+    return (this.selectedCards.indexOf(card_id) > -1);
+  }
+
+  getCardsInPlayIds() {
+    return this.cardsInPlay;
+  }
+
   selectedCardsAreASet(){
     console.log('Checking to see if ' + this.selectedCards + ' are a set' );
     if(this.selectedCards.length === 3){
@@ -32,6 +58,7 @@ class Game {
   }
 
   addSelectedCardsToFoundSets(){
+    console.log("Found a set: " + this.selectedCards);
     this.foundSets.push(this.selectedCards);
     this.selectedCards = [];
   }
@@ -96,7 +123,7 @@ class Game {
   }
 
   findAllSets(){
-    console.log('findAllSets');
+    console.log('Game::findAllSets()');
     let card_ids = this.cardsInPlay;
     let all_sets = [];
     for(let i=0; i < (card_ids.length - 2); i++){
@@ -115,7 +142,7 @@ class Game {
 class Deck {
   constructor(){
     const num_cards = 81;
-    this.cards = [];
+    this.cards = []; // actual Cards, not CardIDs
 
     for(let i=0; i<num_cards; i++){
       this.cards.push(new Card(i));
