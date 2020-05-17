@@ -1,6 +1,6 @@
 // Here you can add other styles
 .content-and-settings-row {
-  overflow: hidden;
+  overflow-x: hidden;
   flex-wrap: nowrap;
 }
 
@@ -48,6 +48,7 @@
   margin: 5px;
   border-radius: 20px;
   font-size: 12px;
+  display: inline-block;
 }
 
 .CardGrid div {
@@ -60,19 +61,37 @@
   background-color: #d5e1e9;
 }
 
+.FoundSets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .FoundSets img {
-  height: 80px;
-  width: 126px;
+  height: 60px;
+  width: 94px;
 }
 
 .FoundSets .SetCard {
   padding: 4px;
   margin: 2px;
   border-radius: 10px;
-  width: 140px;
+  width: min-content;
 }
 
 .FoundSet {
   display: flex;
   flex-direction: row;
+  margin: 5px;
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }

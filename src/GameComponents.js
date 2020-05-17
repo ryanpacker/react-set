@@ -37,9 +37,16 @@ class CardGrid extends Component {
     }
 
     return (
-      <div className="CardGrid">
-        {rows}
-      </div>
+      <Card className="card-accent-primary h-100 w-100">
+        <CardHeader>
+          Find Sets
+        </CardHeader>
+        <CardBody>
+          <div className="CardGrid">
+            {rows}
+          </div>
+        </CardBody>
+      </Card>
     );
   }
 }
@@ -93,17 +100,16 @@ class FoundSets extends Component {
     });
 
     return (
-      <div className="FoundSets">
-        <Card>
-          <CardHeader className="d-flex align-items-center justify-content-between w-auto p-3">
-            Cheat Card
-            <AppSwitch className={'mx-1'} variant={'pill'} color={'primary'} checked />
+      <div className="FoundSets h-100 w-100">
+        <Card className="card-accent-info flex-grow-1 w-100">
+          <CardHeader>
+            All Sets
           </CardHeader>
           <CardBody>
-            {cheat_card_view}
+            {all_sets}
           </CardBody>
         </Card>
-        <Card>
+        <Card className="card-accent-success flex-grow-1 w-100">
           <CardHeader>
             Found sets
           </CardHeader>
@@ -111,13 +117,12 @@ class FoundSets extends Component {
             {found_sets}
           </CardBody>
         </Card>
-        <Card>
-          <CardHeader className="d-flex align-items-center justify-content-between">
-            All Sets
-            <AppSwitch className={'mx-1'} variant={'pill'} color={'primary'} checked />
+        <Card className="card-accent-warning flex-grow-1 w-100">
+          <CardHeader>
+            Cheat Card
           </CardHeader>
           <CardBody>
-            {all_sets}
+            {cheat_card_view}
           </CardBody>
         </Card>
       </div>
