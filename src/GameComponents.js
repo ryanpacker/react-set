@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
 import { AppSwitch } from '@coreui/react';
 
 
@@ -36,10 +36,14 @@ class CardGrid extends Component {
       rows[i] = this.getRow(cardsInPlayIds.slice(i*num_columns, (i+1)*num_columns));
     }
 
+    let numFoundSets  = this.props.gameEngine.getNumberOfFoundSets();
+    let numSets       = this.props.gameEngine.getNumberOfSets();
+
     return (
       <Card className="card-accent-primary h-100 w-100">
-        <CardHeader>
-          Find Sets
+        <CardHeader className="d-flex flex-row">
+          <div className="mr-auto">Find Sets</div>
+          <Badge className="mr-1 p-2" color="primary" pill>Found {numFoundSets}/{numSets}</Badge>
         </CardHeader>
         <CardBody>
           <div className="CardGrid">
@@ -54,17 +58,7 @@ class CardGrid extends Component {
 class FoundSets extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showAllSets: false,
-      temp: this.props.temp
-    }
     this.gameEngine = this.props.gameEngine;
-  }
-
-  toggleShowAllSets(){
-    this.setState({
-      showAllSets: !this.state.showAllSets,
-    });
   }
 
   render() {
@@ -99,16 +93,31 @@ class FoundSets extends Component {
       );
     });
 
+    let all_sets_card = (
+      <Card className="card-accent-info flex-grow-1 w-100">
+        <CardHeader>
+          All Sets
+        </CardHeader>
+        <CardBody>
+          {all_sets}
+        </CardBody>
+      </Card>
+    );
+
+    let cheat_card_card = (
+      <Card className="card-accent-warning flex-grow-1 w-100">
+        <CardHeader>
+          Cheat Card
+        </CardHeader>
+        <CardBody>
+          {cheat_card_view}
+        </CardBody>
+      </Card>
+    );
+
     return (
       <div className="FoundSets h-100 w-100">
-        <Card className="card-accent-info flex-grow-1 w-100">
-          <CardHeader>
-            All Sets
-          </CardHeader>
-          <CardBody>
-            {all_sets}
-          </CardBody>
-        </Card>
+        { this.props.showAllSets ? all_sets_card : '' }
         <Card className="card-accent-success flex-grow-1 w-100">
           <CardHeader>
             Found sets
@@ -117,14 +126,7 @@ class FoundSets extends Component {
             {found_sets}
           </CardBody>
         </Card>
-        <Card className="card-accent-warning flex-grow-1 w-100">
-          <CardHeader>
-            Cheat Card
-          </CardHeader>
-          <CardBody>
-            {cheat_card_view}
-          </CardBody>
-        </Card>
+        { this.props.showCheatCard ? cheat_card_card : '' }
       </div>
     );
   }
@@ -141,10 +143,12 @@ class CardView extends Component {
   render() {
 //    console.log('CardView::render() | card_id: ' + this.props.id);
     let className = this.props.isSelected ? 'SetCard selected' : 'SetCard';
+    let onClick   = this.props.onClick ? () => this.props.onClick(this.props.id) : null;
+
     return (
       <div
         className={className}
-        onClick={() => this.props.onClick(this.props.id)}
+        onClick={onClick}
       >
         <img
           src={require('./images/card-images/card-'+this.state.id+'.png')}
@@ -155,4 +159,47 @@ class CardView extends Component {
   }
 }
 
-export { CardView, CardGrid, FoundSets };
+class SettingsView extends Component {
+
+  render() {
+    return (
+      <Card className="card-accent-danger flex-grow-1 w-100">
+        <CardHeader>
+          Settings
+        </CardHeader>
+        <CardBody>
+          <Row className="w-100 d-flex justify-content-between p-3">
+            <Col xs="9">
+              Show all possible sets
+            </Col>
+            <Col xs="3" className="d-flex flex-shrink-0 justify-content-end">
+              <AppSwitch
+                className={'mx-1'}
+                variant={'pill'}
+                color={'primary'}
+                onChange={() => this.props.onShowAllSetsChange()}
+                checked={this.props.showAllSets}
+              />
+            </Col>
+          </Row>
+          <Row className="w-100 d-flex justify-content-between p-3">
+            <Col xs="9">
+              Show cheat card
+            </Col>
+            <Col xs="3" className="d-flex flex-shrink-0 justify-content-end">
+              <AppSwitch
+                className={'mx-1'}
+                variant={'pill'}
+                color={'primary'}
+                onChange={() => this.props.onShowCheatCardChange()}
+                checked={this.props.showCheatCard}
+              />
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
+    );
+  }
+}
+
+export { CardView, CardGrid, FoundSets, SettingsView };

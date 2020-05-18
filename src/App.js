@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.scss';
 import Layout from './Layout.js';
 import Game from './Game.js';
-import { CardGrid, FoundSets } from './GameComponents.js';
+import { CardGrid, FoundSets, SettingsView } from './GameComponents.js';
 
 
 
@@ -16,6 +16,8 @@ class App extends Component {
     this.state = {
       cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
       selectedCards: [],
+      showAllSets: false,
+      showCheatCard: true,
     }
   }
 
@@ -24,6 +26,8 @@ class App extends Component {
     this.setState({
       cardsInPlay: this.gameEngine.getCardsInPlayIds(), // card IDs for now... need to decide between ids and card objects
       selectedCards: this.gameEngine.getSelectedCardIds(),
+      showAllSets: this.state.showAllSets,
+      showCheatCard: this.state.showCheatCard,
     });
 
     if(this.cardIsSelected(card_id)){
@@ -31,6 +35,26 @@ class App extends Component {
     } else {
       this.addCardToSelection(card_id);
     }
+  }
+
+  toggleShowAllSets(){
+    console.log('App::toggleShowAllSets()');
+    this.setState({
+      cardsInPlay: this.gameEngine.getCardsInPlayIds(),
+      selectedCards: this.gameEngine.getSelectedCardIds(),
+      showAllSets: !this.state.showAllSets,
+      showCheatCard: this.state.showCheatCard,
+    });
+  }
+
+  toggleShowCheatCard(){
+    console.log('App::toggleShowCheatCard()');
+    this.setState({
+      cardsInPlay: this.gameEngine.getCardsInPlayIds(),
+      selectedCards: this.gameEngine.getSelectedCardIds(),
+      showAllSets: this.state.showAllSets,
+      showCheatCard: !this.state.showCheatCard,
+    });
   }
 
   //completeSet(card1_id, card2_id){
@@ -77,8 +101,17 @@ class App extends Component {
     return (
         <Layout>
           <CardGrid onClick={(id) => this.handleClick(id)} gameEngine={this.gameEngine} />
-          <FoundSets gameEngine={this.gameEngine} />
-          <div>settings</div>
+          <FoundSets
+            gameEngine={this.gameEngine}
+            showAllSets={this.state.showAllSets}
+            showCheatCard={this.state.showCheatCard} 
+          />
+          <SettingsView
+            showAllSets={this.state.showAllSets}
+            showCheatCard={this.state.showCheatCard}
+            onShowAllSetsChange={() => this.toggleShowAllSets()}
+            onShowCheatCardChange={() => this.toggleShowCheatCard()}
+          />
         </Layout>
     );
   }

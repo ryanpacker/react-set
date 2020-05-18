@@ -137,6 +137,15 @@ class Game {
     }
     return all_sets;
   }
+
+  getNumberOfSets(){
+    return this.findAllSets().length;
+  }
+
+  getNumberOfFoundSets(){
+    return this.foundSets.length;
+  }
+
 }
 
 class Deck {
