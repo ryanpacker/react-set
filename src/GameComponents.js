@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader } from 'reactstrap';
 import { AppSwitch } from '@coreui/react';
 
 
@@ -36,10 +36,14 @@ class CardGrid extends Component {
       rows[i] = this.getRow(cardsInPlayIds.slice(i*num_columns, (i+1)*num_columns));
     }
 
+    let numFoundSets  = this.props.gameEngine.getNumberOfFoundSets();
+    let numSets       = this.props.gameEngine.getNumberOfSets();
+
     return (
       <Card className="card-accent-primary h-100 w-100">
-        <CardHeader>
-          Find Sets
+        <CardHeader className="d-flex flex-row">
+          <div className="mr-auto">Find Sets</div>
+          <Badge className="mr-1 p-2" color="primary" pill>Found {numFoundSets}/{numSets}</Badge>
         </CardHeader>
         <CardBody>
           <div className="CardGrid">
@@ -141,10 +145,12 @@ class CardView extends Component {
   render() {
 //    console.log('CardView::render() | card_id: ' + this.props.id);
     let className = this.props.isSelected ? 'SetCard selected' : 'SetCard';
+    let onClick   = this.props.onClick ? () => this.props.onClick(this.props.id) : null;
+
     return (
       <div
         className={className}
-        onClick={() => this.props.onClick(this.props.id)}
+        onClick={onClick}
       >
         <img
           src={require('./images/card-images/card-'+this.state.id+'.png')}
